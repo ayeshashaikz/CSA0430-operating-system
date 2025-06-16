@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+int main(){
+    pid_t pid;
+    pid=fork();
+    if(pid<0){
+        printf("fork failed");
+        return 1;
+    }
+    if(pid==0){
+        printf("hello I am a childprocess");
+        printf("My PID is :%d\n",getpid());
+        printf("My parents PID is:%d\n",getppid());
+    }else {
+        // This is the parent process 
+        printf("Hello from Parent Process!\n");
+        printf("My PID is: %d\n", getpid());              // I’m the parent!
+        printf("I just created a Child with PID: %d\n", pid); // Here’s my child
+    }
+    return 0;
+}
+OUTPUT:
+Hello from Parent Process!
+My PID is: 41695
+I just created a Child with PID: 41696
+hello I am a childprocessMy PID is :41696
+My parents PID is:41695
+
+
+=== Code Execution Successful ===
