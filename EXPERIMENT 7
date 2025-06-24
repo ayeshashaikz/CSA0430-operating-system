@@ -1,0 +1,82 @@
+#include <stdio.h>
+
+struct Process {
+    int id;
+    int bt;
+    int rt;
+    int pr;
+    int at;
+    int ct;
+    int wt;
+    int tat;
+};
+
+int main() {
+    int n, i, j, time = 0, completed = 0;
+    struct Process p[20];
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++) {
+        printf("Enter Arrival Time, Burst Time, and Priority for P%d: ", i+1);
+        p[i].id = i + 1;
+        scanf("%d%d%d", &p[i].at, &p[i].bt, &p[i].pr);
+        p[i].rt = p[i].bt;
+    }
+
+    printf("\nGantt Chart:\n");
+    while(completed < n) {
+        int highest = -1;
+        int highest_pr = 9999;
+
+        for(i = 0; i < n; i++) {
+            if(p[i].at <= time && p[i].rt > 0 && p[i].pr < highest_pr) {
+                highest_pr = p[i].pr;
+                highest = i;
+            }
+        }
+
+        if(highest == -1) {
+            printf("|Idle");
+            time++;
+        } else {
+            printf("|P%d", p[highest].id);
+            p[highest].rt--;
+            time++;
+
+            if(p[highest].rt == 0) {
+                completed++;
+                p[highest].ct = time;
+                p[highest].tat = p[highest].ct - p[highest].at;
+                p[highest].wt = p[highest].tat - p[highest].bt;
+            }
+        }
+    }
+    printf("|\n");
+
+    printf("\nProcess\tAT\tBT\tPR\tCT\tTAT\tWT\n");
+    for(i = 0; i < n; i++) {
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\t%d\n", p[i].id, p[i].at, p[i].bt, p[i].pr, p[i].ct, p[i].tat, p[i].wt);
+    }
+
+    return 0;
+}
+OUTPUT:
+Enter number of processes: 4
+Enter Arrival Time, Burst Time, and Priority for P1: 1 1 2
+Enter Arrival Time, Burst Time, and Priority for P2: 2 3 1
+Enter Arrival Time, Burst Time, and Priority for P3: 3 2 4
+Enter Arrival Time, Burst Time, and Priority for P4: 4 4 3
+
+Gantt Chart:
+|Idle|P1|P2|P2|P2|P4|P4|P4|P4|P3|P3|
+
+Process	AT	BT	PR	CT	TAT	WT
+P1	1	1	2	2	1	0
+P2	2	3	1	5	3	0
+P3	3	2	4	11	8	6
+P4	4	4	3	9	5	1
+
+
+=== Code Execution Successful ===
