@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+
+struct File {
+    char name[20];
+} files[10];
+
+int main() {
+    int n, i;
+    printf("Enter number of files: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++) {
+        printf("Enter file name %d: ", i+1);
+        scanf("%s", files[i].name);
+    }
+
+    printf("\nFiles in Directory:\n");
+    for(i = 0; i < n; i++) {
+        printf("%s\n", files[i].name);
+    }
+
+    return 0;
+}
+OUTPUT:
+Enter number of files: 2
+Enter file name 1: a
+Enter file name 2: b
+
+Files in Directory:
+a
+b
+
+
+=== Code Execution Successful ===
