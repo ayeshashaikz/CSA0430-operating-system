@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+int main() {
+    int n, bt[20], pri[20], rt[20], t = 0, remain, minpri, shortest, i;
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++) {
+        printf("Enter Burst Time and Priority for P%d: ", i+1);
+        scanf("%d%d", &bt[i], &pri[i]);
+        rt[i] = bt[i];
+    }
+
+    remain = n;
+    printf("\nGantt Chart:\n");
+    while(remain != 0) {
+        shortest = -1;
+        minpri = 999;
+
+        for(i = 0; i < n; i++) {
+            if(rt[i] > 0 && pri[i] < minpri) {
+                minpri = pri[i];
+                shortest = i;
+            }
+        }
+
+        if(shortest == -1) {
+            t++;
+            continue;
+        }
+
+        printf("|P%d", shortest + 1);
+        rt[shortest]--;
+        t++;
+
+        if(rt[shortest] == 0)
+            remain--;
+    }
+    printf("|\n");
+    return 0;
+}
+OUTPUT:
+Enter number of processes: 5
+Enter Burst Time and Priority for P1: 1 4
+Enter Burst Time and Priority for P2: 2 5
+Enter Burst Time and Priority for P3: 3 3
+Enter Burst Time and Priority for P4: 4 2
+Enter Burst Time and Priority for P5: 5 1
+
+Gantt Chart:
+|P5|P5|P5|P5|P5|P4|P4|P4|P4|P3|P3|P3|P1|P2|P2|
+
+
+=== Code Execution Successful ===
