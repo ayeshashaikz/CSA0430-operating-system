@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+struct File {
+    char name[20];
+};
+
+struct Directory {
+    char name[20];
+    struct File files[10];
+    int fileCount;
+} dirs[5];
+
+int main() {
+    int i, j, n;
+    printf("Enter number of directories: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++) {
+        printf("Enter directory name: ");
+        scanf("%s", dirs[i].name);
+        printf("Enter number of files in %s: ", dirs[i].name);
+        scanf("%d", &dirs[i].fileCount);
+        for(j = 0; j < dirs[i].fileCount; j++) {
+            printf("Enter file %d name: ", j+1);
+            scanf("%s", dirs[i].files[j].name);
+        }
+    }
+
+    printf("\nDirectory Structure:\n");
+    for(i = 0; i < n; i++) {
+        printf("Directory: %s\n", dirs[i].name);
+        for(j = 0; j < dirs[i].fileCount; j++) {
+            printf("  File: %s\n", dirs[i].files[j].name);
+        }
+    }
+
+    return 0;
+}
+OUTPUT:
+Enter number of directories: 2
+Enter directory name: ay
+Enter number of files in ay: 2
+Enter file 1 name: a
+Enter file 2 name: b
+Enter directory name: az
+Enter number of files in az: 2
+Enter file 1 name: c
+Enter file 2 name: d
+
+Directory Structure:
+Directory: ay
+  File: a
+  File: b
+Directory: az
+  File: c
+  File: d
+
+
+=== Code Execution Successful ===
