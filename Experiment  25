@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+int main() {
+    // Create and write to a file
+    int fd = open("exp25.txt", O_CREAT | O_WRONLY, 0644);
+    if(fd < 0){ perror("open"); return 1; }
+    write(fd, "Operating Systems\n", 18);
+
+    // lseek to start and overwrite part of the file
+    lseek(fd, 0, SEEK_SET);
+    write(fd, "OS", 2);
+
+    // fcntl example: get file descriptor flags
+    int flags = fcntl(fd, F_GETFL);
+    printf("File descriptor flags: %d\n", flags);
+
+    // stat to get file information
+    struct stat st;
+    stat("exp25.txt", &st);
+    printf("File size: %ld bytes\n", st.st_size);
+
+    close(fd);
+
+    // opendir and readdir example: list files in current directory
+    DIR *dir = opendir(".");
+    struct dirent *entry;
+    printf("Files in current directory:\n");
+    while((entry = readdir(dir)) != NULL)
+        printf("  %s\n", entry->d_name);
+    closedir(dir);
+
+    unlink("exp25.txt"); // clean up
+    return 0;
+}
+output:
+File descriptor flags: 577
+File size: 18 bytes
+Files in current directory:
+  .
+  ..
+  exp25.c
+  ...
