@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd = open("demo.txt", O_CREAT | O_WRONLY, 0644);
+    if(fd < 0) { perror("open"); return 1; }
+    write(fd, "Hello, World!\n", 14);
+    close(fd);
+
+    fd = open("demo.txt", O_RDONLY);
+    if(fd < 0) { perror("open"); return 1; }
+    char buf[100];
+    int n = read(fd, buf, sizeof(buf)-1);
+    buf[n] = '\0';
+    printf("Read from file: %s", buf);
+    close(fd);
+
+    unlink("demo.txt"); // delete file
+    return 0;
+}
+ output:
+Read from file: Hello, World!
+
