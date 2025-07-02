@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int main() {
+    int n = 3, m = 3; // 3 processes, 3 resources
+    int alloc[3][3] = { {0,1,0}, {2,0,0}, {3,0,2} };
+    int max[3][3]   = { {7,5,3}, {3,2,2}, {9,0,2} };
+    int avail[3]    = {3,3,2};
+    int f[3]={0}, ans[3], ind=0;
+    int need[3][3];
+    for(int i=0;i<n;i++) for(int j=0;j<m;j++) need[i][j]=max[i][j]-alloc[i][j];
+
+    for(int k=0;k<5;k++){
+        for(int i=0;i<n;i++){
+            if(!f[i]){
+                int flag=0;
+                for(int j=0;j<m;j++) if(need[i][j]>avail[j]) flag=1;
+                if(!flag){
+                    for(int y=0;y<m;y++) avail[y]+=alloc[i][y];
+                    ans[ind++]=i; f[i]=1;
+                }
+            }
+        }
+    }
+    int safe=1;
+    for(int i=0;i<n;i++) if(!f[i]) safe=0;
+    if(safe){
+        printf("Safe sequence: ");
+        for(int i=0;i<n;i++) printf("P%d ",ans[i]);
+        printf("\n");
+    } else printf("No safe sequence\n");
+   return 0;
+}
+Output:
+Safe sequence: P1 P0 P2
+
+
