@@ -1,0 +1,29 @@
+#include <pthread.h>
+#include <stdio.h>
+
+void* thread_func(void* arg) {
+    printf("Thread %ld running\n", (long)arg);
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&t1, NULL, thread_func, (void*)1);
+    pthread_create(&t2, NULL, thread_func, (void*)2);
+
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+
+    if (pthread_equal(t1, t2)) printf("Threads are equal\n");
+    else printf("Threads are not equal\n");
+
+    printf("Main thread exiting\n");
+    return 0;
+}
+output:
+Thread 1 running
+Thread 2 running
+Threads are not equal
+Main thread exiting
+
+
