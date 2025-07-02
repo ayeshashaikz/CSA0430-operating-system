@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <dirent.h>
+
+int main() {
+    DIR *dir = opendir(".");
+    struct dirent *entry;
+    printf("Listing files:\n");
+    while((entry = readdir(dir)) != NULL)
+        printf("%s\n", entry->d_name);
+    closedir(dir);
+    return 0;
+}
+ output:
+Listing files:
+.
+..
+exp27.c
+file1.txt
+...
+
